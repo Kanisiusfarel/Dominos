@@ -4,20 +4,20 @@ const Domcard: [number, number][] = [
   [6, 1], [4, 3], [5, 1], [3, 4], [1, 1], [3, 4], [1, 2]
 ];
 
-const Home = () => {
+function Home(){
   const [dominoCards, setDominoCards] = useState<[number, number][]>(Domcard);
   const [inputTotal, setInputTotal] = useState<string>('');
 
-  const countDoubleNumbers = () => dominoCards.filter(card => card[0] === card[1]).length;
+  const doublenumber = () => dominoCards.filter(card => card[0] === card[1]).length;
 
-  const sortDominoCards = (order: 'asc' | 'desc') => {
+  const sortDom = (order: 'asc' | 'desc') => {
     setDominoCards(cards => [...cards].sort((a, b) => {
       const sumA = a[0] + a[1], sumB = b[0] + b[1];
       return order === 'asc' ? sumA - sumB : sumB - sumA;
     }));
   };
 
-  const removeDuplicateCards = () => {
+  const removeDup = () => {
     const countMap = new Map<string, number>();
     dominoCards.forEach(card => {
       const key = `${Math.min(card[0], card[1])},${Math.max(card[0], card[1])}`;
@@ -26,9 +26,9 @@ const Home = () => {
     setDominoCards(cards => cards.filter(card => countMap.get(`${Math.min(card[0], card[1])},${Math.max(card[0], card[1])}`) === 1));
   };
 
-  const flipCards = () => setDominoCards(cards => cards.map(card => [card[1], card[0]]));
+  const flip = () => setDominoCards(cards => cards.map(card => [card[1], card[0]]));
 
-  const removeCardsByTotal = () => {
+  const removetotal = () => {
     const total = parseInt(inputTotal);
     if (!isNaN(total)) {
       setDominoCards(cards => cards.filter(card => card[0] + card[1] !== total));
@@ -50,7 +50,7 @@ const Home = () => {
 
       <div className="bg-gray-100 mt-8 w-full max-w-4xl p-4 border-2 border-gray-300 rounded-md">
         <p className="font-semibold text-lg">Double Numbers</p>
-        <span className="text-xl">{countDoubleNumbers()}</span>
+        <span className="text-xl">{doublenumber()}</span>
       </div>
 
       <div className="mt-5 flex gap-4 flex-wrap">
@@ -64,10 +64,10 @@ const Home = () => {
       </div>
 
       <div className="mt-8 space-x-4 mb-8">
-        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={() => sortDominoCards('asc')}>SORT (ASC)</button>
-        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={() => sortDominoCards('desc')}>SORT (DESC)</button>
-        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={removeDuplicateCards}>REMOVE DUP</button>
-        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={flipCards}>FLIP</button>
+        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={() => sortDom('asc')}>SORT (ASC)</button>
+        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={() => sortDom('desc')}>SORT (DESC)</button>
+        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={removeDup}>REMOVE DUP</button>
+        <button className="bg-blue-600 text-white font-bold px-4 py-2 rounded-md" onClick={flip}>FLIP</button>
       </div>
 
       <div className="flex items-center mb-8">
@@ -77,7 +77,7 @@ const Home = () => {
           onChange={e => setInputTotal(e.target.value)}
           className="p-2 border rounded mr-2"
         />
-        <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={removeCardsByTotal}>Remove</button>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={removetotal}>Remove</button>
       </div>
 
       <button className="bg-gray-500 text-white px-4 py-2 rounded" onClick={() => setDominoCards(Domcard)}>Reset Data</button>
